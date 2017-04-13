@@ -131,6 +131,29 @@ const Schema = {
 
 ```
 
+*Logo mais voltaremos nesse assunto dos Schemas.*
+
+Para dar continuidade ao nosso BOT iremos utilizar eventos específicos para que 
+ele nao pegue **TUDO** que vier, mas sim apenas o que desejemos.
+
+Vejamos quais sao esses eventos:
+
+
+- `message`;
+- `text`;
+- `audio`;
+- `document`;
+- `photo`;
+- `sticker`;
+- `video`;
+- `voice`;
+- `contact`;
+- `location`;
+
+Esses serao os eventos que utilizaremos por hora, existem muitos outros como você 
+pode conferir na documentaçao, o link esta abaixo.
+
+*fonte: [Node.js Telegram Bot API - Usage - Events](https://github.com/yagop/node-telegram-bot-api/blob/master/doc/usage.md#events)*
 
 ## onText
 
