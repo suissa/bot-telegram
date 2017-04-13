@@ -66,13 +66,7 @@ Enviando essa mensagem para o BOT iremos ter o seguinte retorno no console:
 
 ```js
 
-bot.on( 'message', ( msg ) => console.log( 'msg', msg ) )
-
-/** 
-  
-  // Retorna isso
-
-msg { message_id: 2,
+{ message_id: 2,
   from: 
    { id: 77586615,
      first_name: 'Suissa Refatoreitor',
@@ -86,7 +80,7 @@ msg { message_id: 2,
      type: 'private' },
   date: 1492093704,
   text: 'oi' }
-*/
+}
 
 ```
 
