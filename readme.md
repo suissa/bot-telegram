@@ -158,6 +158,97 @@ pode conferir na documentaçao, o link esta abaixo.
 Como você viu acima, possuímos o evento `text` e como **sabemos** a funçao `on` sempre 
 é utilizada para **ouvir** um evento, por isso o nome da funçao ja é `onText`.
 
+O melhor dela é que possamos passar, como primeiro parametro, uma *RegEx* para que 
+o BOT execute o *callback* apenas se o texto enviado pelo usuario *"caiba"* nessa *RegEx*.
+
+Utilizaremos o exemplo mais simples que encontramos por aí:
+
+```js
+
+bot.onText( /\/echo (.*)/, ( msg, match ) => {
+  console.log( `echo msg: `, msg ) 
+  console.log( `echo match: `, match ) 
+})
+
+/**
+echo msg:  { message_id: 7,
+  from: 
+   { id: 77586615,
+     first_name: 'Suissa Refatoreitor',
+     last_name: 'Tabajara',
+     username: 'osuissa' },
+  chat: 
+   { id: 77586615,
+     first_name: 'Suissa Refatoreitor',
+     last_name: 'Tabajara',
+     username: 'osuissa',
+     type: 'private' },
+  date: 1492101864,
+  text: '/echo blz mein?',
+  entities: [ { type: 'bot_command', offset: 0, length: 5 } ] }
+
+echo match:  [ '/echo blz mein?',
+  'blz mein?',
+  index: 0,
+  input: '/echo blz mein?' ]
+
+
+*/
+
+```
+
+O retorno da `msg` ja conhecemos, porém ele possui uma propriedade nova: `entities`.
+
+**Nao entrarei nesse escopo agora, entao vamos continuar com o `echo`.**
+
+O que nos interessa nesse retorno é o seguinte objeto: `match`.
+
+```js
+
+[ '/echo blz mein?',
+  'blz mein?',
+  index: 0,
+  input: '/echo blz mein?' ]
+
+```
+
+Como podemos ver ele é um *array* que contém o resultado do [match](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/match) testando a mensagem que o BOT recebeu com a *RegEx* que você definiu no `onText`.
+
+Caso você nao conheça essa funcao veja como ela funciona executando o seguinte código no Terminal, executando `node` antes.
+
+```js
+
+> '/echo blz mein?'.match(/\/echo (.*)/)
+[ '/echo blz mein?',
+  'blz mein?',
+  index: 0,
+  input: '/echo blz mein?' ]
+
+```
+
+Logo conseguimos entender que:
+
+- na posiçao 0: temos o valor total do texto
+- na posiçao 1: o texto sem a *RegEx*
+- na posiçao 2: o índice onde foi encontrada a *RegEx*
+- na posiçao 3: a entrada
+
+Agora vamos fazer o BOT enviar como mensagem o mesmo texto recebido no chat, 
+para isso iremos utilizar a fn `bot.sendMessage`.
+
+Sua assinatura é bem simples:
+
+- primeiro: o ID do chat onde foi recebido o texto
+- segundo: o texto a ser enviado pelo BOT
+
+```js
+
+bot.sendMessage( id, text )
+
+```
+
+E essa fn ira retornar uma *Promise*, entao sabemos o que fazer né?
+
 ```js
 
 const logErrorEcho = ( msg ) => ( err ) => 

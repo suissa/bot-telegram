@@ -17,3 +17,7 @@ const sendEcho = ( msg, match ) =>
 
 bot.onText( /\/echo (.*)/, sendEcho )
 
+// bot.onText( /\/echo (.*)/, ( msg, match ) => {
+//   console.log( `echo msg: `, msg ) 
+//   console.log( `echo match: `, match ) 
+// })
