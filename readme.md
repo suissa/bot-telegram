@@ -84,8 +84,52 @@ Enviando essa mensagem para o BOT iremos ter o seguinte retorno no console:
 
 ```
 
+Logo percebemos que além dos dados basicos:
 
-Analizando esse retorno podemos perceber
+- message_id: identificador dessa mensagem
+- date: data no formato [timestamp]()
+- text: texto recebido pelo BOT
+
+Também possuimos 2 outros objetos:
+
+- from: dados de quem enviou a mensagem
+- chat: dados do chat aberto entre você e o BOT
+
+Facilmente podemos inferir que o `chat.id` é igual ao `from.id`, logo o Telegram 
+cria essa ligaçao entre você e chat que você abriu.
+
+> 
+> Guarde bem essa informaçao pois sera muito útil no futuro.
+>
+
+
+Analizando esse retorno podemos montar o seguinte *Schema* para esse resultado:
+
+```js
+const from = { 
+  id: Number,
+  first_name: String,
+  last_name: String,
+  username: String 
+}
+     
+const chat = { 
+  id: Number,
+  first_name: String,
+  last_name: String,
+  username: String,
+  type: String 
+}
+
+const Schema = { 
+  message_id: Number,
+  from,
+  chat,
+  date: Number,
+  text: String
+}
+
+```
 
 
 ## onText
