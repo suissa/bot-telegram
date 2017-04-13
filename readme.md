@@ -25,3 +25,7 @@ const bot = new TelegramBot( TOKEN, { polling: true } )
 > 
 > Mas onde pego esse `TOKEN` ?
 > 
+
+Click nesse manolo -> [@BotFather](https://telegram.me/botfather) <- para incicar o chat com o Bot gerenciador de Bots. <3
+
+![@BotFather](http://i.imgur.com/ddNaY7H.png)
