@@ -6,7 +6,6 @@ const bot = new TelegramBot( TOKEN, { polling: true } )
 
 bot.on( 'message', ( msg, match ) => {
   console.log( 'msg', msg)
-  console.log( 'match', match)
 })
 
 

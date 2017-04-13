@@ -102,7 +102,6 @@ cria essa ligaçao entre você e chat que você abriu.
 > Guarde bem essa informaçao pois sera muito útil no futuro.
 >
 
-
 Analizando esse retorno podemos montar o seguinte *Schema* para esse resultado:
 
 ```js
@@ -138,17 +137,16 @@ ele nao pegue **TUDO** que vier, mas sim apenas o que desejemos.
 
 Vejamos quais sao esses eventos:
 
-
-- `message`;
-- `text`;
-- `audio`;
-- `document`;
-- `photo`;
-- `sticker`;
-- `video`;
-- `voice`;
-- `contact`;
-- `location`;
+- `message`
+- `text`
+- `audio`
+- `document`
+- `photo`
+- `sticker`
+- `video`
+- `voice`
+- `contact`
+- `location`
 
 Esses serao os eventos que utilizaremos por hora, existem muitos outros como você 
 pode conferir na documentaçao, o link esta abaixo.
@@ -156,6 +154,28 @@ pode conferir na documentaçao, o link esta abaixo.
 *fonte: [Node.js Telegram Bot API - Usage - Events](https://github.com/yagop/node-telegram-bot-api/blob/master/doc/usage.md#events)*
 
 ## onText
+
+Como você viu acima, possuímos o evento `text` e como **sabemos** a funçao `on` sempre 
+é utilizada para **ouvir** um evento, por isso o nome da funçao ja é `onText`.
+
+```js
+
+const logErrorEcho = ( msg ) => ( err ) => 
+  console.log( msg, err )
+
+const logSuccessEcho = ( msg, match ) => ( data ) => 
+  console.log( `Success: `, data )
+
+const sendEcho = ( msg, match ) => 
+  bot.sendMessage( msg.chat.id, match[ 1 ] )
+      .then( logSuccessEcho( msg, match ) )
+      .catch( logErrorEcho( `Error: ` ) )
+
+bot.onText( /\/echo (.*)/, sendEcho )
+
+```
+
+![Exemplo do echo](http://i.imgur.com/4RVZjir.png)
 
 ## Erros
 
