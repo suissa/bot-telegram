@@ -1,3 +1,4 @@
 node_modules/
 .DS*
 src/token.js
+.env

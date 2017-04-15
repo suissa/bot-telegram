@@ -268,6 +268,15 @@ bot.onText( /\/echo (.*)/, sendEcho )
 
 ![Exemplo do echo](http://i.imgur.com/4RVZjir.png)
 
+### Funcionalidades
+
+## Funcionalidade  - busca no Google
+
+Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisiçao `GET` em https://www.google.com.br/#safe=off&q=nomadev
+
+
+![nomadev no Google](http://i.imgur.com/72mWKTC.png)
+
 ## Erros
 
 ### 409 - onflict: terminated by other long poll or webhook
