@@ -465,12 +465,16 @@ bot.onText( /\/google (.*)/, sendGoogle )
 
 ### DESAFIO - Busca
 
-Caso você queira treinar e contribuir come sse projeto crie um bot para as seguintes buscas.
+Caso você queira treinar e contribuir com esse projeto crie um bot para alguma das seguintes buscas:
 
 - Wikipedia
 - mdn.io
 - DuckDuckGo
 - redtube
+
+E envie para a pasta `src/` o arquivo com o nome: 
+
+`desafioBusca.${seu_gutgub_user}.js`
 
 > **Depois irei ensinar a mordularizar e utilizaremos todas as buscas no mesmo BOT!**
 
