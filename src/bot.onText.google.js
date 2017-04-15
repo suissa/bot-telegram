@@ -34,5 +34,5 @@ const sendGoogle = ( msg, match ) =>
       .then( sendLinkFrom( msg ) )
       .catch( log( `Error: `) )
 
-bot.onText( /\/google (.*)/, sendGoogle )
+bot.onText( /google (.*)/, sendGoogle )
 

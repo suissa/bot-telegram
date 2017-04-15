@@ -471,6 +471,7 @@ Caso você queira treinar e contribuir com esse projeto crie um bot para alguma 
 - mdn.io
 - DuckDuckGo
 - redtube
+- npm
 
 E envie para a pasta `src/` o arquivo com o nome: `desafioBusca.${seu_github_user}.js`
 
