@@ -2,36 +2,36 @@ const TelegramBot = require( `node-telegram-bot-api` )
 const http = require( `axios` )
 const cheerio = require( `cheerio` )
 
-const TOKENS = require( `./token` )
+const TOKEN = require( `./token` )
 
-const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
+const bot = new TelegramBot( TOKEN.TELEGRAM, { polling: true } )
 const URL_BASE = `https://www.google.com.br/search?q=`
 
 const log = ( msg ) => ( result ) => 
   console.log( msg, result )
 
-const getURLFrom = ( elem, $ ) => 
-  `Link: ` + $( elem ).attr( `href` )
-                      .replace( `/url?q=`, `` )
-                      .replace( /\&sa(.*)/, `` )
+const sanitizeURL = ( url ) => 
+  url.replace( `/url?q=`, `` )
+      .replace( /\&sa(.*)/, `` )
 
-const sendLinkFromGoogle = ( $, msg ) => ( i, a ) =>
-  ( !i ) 
+const getURLFrom = ( elem, $ ) => 
+  `Link: ` + sanitizeURL( $( elem ).attr( `href` ) )
+
+const sendLinkFromGoogleUsing = ( $, msg ) => ( i, a ) =>
+  ( !i ) // get only first link
     ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ) )
           .then( log( `${getURLFrom( a, $ )} delivered!` ) )
           .catch( log( `Error: ` ) )
     : false
 
-const sendLink = ( msg ) => ( response ) => {
-  const $ = cheerio.load( response.data )
-  
-  return $( `.r a` ).each( sendLinkFromGoogle( $, msg ) )
-}
+const sendLinkFrom = ( msg ) => ( response ) => 
+  $( `.r a` ).each( sendLinkFromGoogleUsing( cheerio.load( response.data ), msg ) )
 
 const sendGoogle = ( msg, match ) => 
   http.get( `${URL_BASE}${match[ 1 ]}` )
-      .then( sendLink( msg ) )
+      .then( sendLinkFrom( msg ) )
       .catch( log( `Error: `) )
 
 
 bot.onText( /\/google (.*)/, sendGoogle )
+
