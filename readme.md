@@ -400,9 +400,17 @@ http://nomadev.com.br/ delivered! { message_id: 52,
 
 ```
 
+<br>
+<br>
+
+
 #### Refatorando Funcionalidade  - Busca no Google
 
+<br>
+
 > **Vamos refatorar para funções puras!**
+
+<br>
 
 ```js
 
