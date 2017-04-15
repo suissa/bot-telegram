@@ -96,13 +96,13 @@ Também possuimos 2 outros objetos:
 - chat: dados do chat aberto entre você e o BOT
 
 Facilmente podemos inferir que o `chat.id` é igual ao `from.id`, logo o Telegram 
-cria essa ligaçao entre você e chat que você abriu.
+cria essa ligação entre você e chat que você abriu.
 
 > 
-> Guarde bem essa informaçao pois sera muito útil no futuro.
+> Guarde bem essa informação pois sera muito útil no futuro.
 >
 
-Analizando esse retorno podemos montar o seguinte *Schema* para esse resultado:
+Analisando esse retorno podemos montar o seguinte *Schema* para esse resultado:
 
 ```js
 const from = { 
@@ -133,7 +133,7 @@ const Schema = {
 *Logo mais voltaremos nesse assunto dos Schemas.*
 
 Para dar continuidade ao nosso BOT iremos utilizar eventos específicos para que 
-ele nao pegue **TUDO** que vier, mas sim apenas o que desejemos.
+ele não pegue **TUDO** que vier, mas sim apenas o que desejemos.
 
 Vejamos quais sao esses eventos:
 
@@ -148,15 +148,15 @@ Vejamos quais sao esses eventos:
 - `contact`
 - `location`
 
-Esses serao os eventos que utilizaremos por hora, existem muitos outros como você 
-pode conferir na documentaçao, o link esta abaixo.
+Esses serão os eventos que utilizaremos por hora, existem muitos outros como você 
+pode conferir na documentação, o link esta abaixo.
 
 *fonte: [Node.js Telegram Bot API - Usage - Events](https://github.com/yagop/node-telegram-bot-api/blob/master/doc/usage.md#events)*
 
 ## onText
 
-Como você viu acima, possuímos o evento `text` e como **sabemos** a funçao `on` sempre 
-é utilizada para **ouvir** um evento, por isso o nome da funçao ja é `onText`.
+Como você viu acima, possuímos o evento `text` e como **sabemos** a função `on` sempre 
+é utilizada para **ouvir** um evento, por isso o nome da função ja é `onText`.
 
 O melhor dela é que possamos passar, como primeiro parametro, uma *RegEx* para que 
 o BOT execute o *callback* apenas se o texto enviado pelo usuario *"caiba"* nessa *RegEx*.
@@ -199,7 +199,7 @@ echo match:  [ '/echo blz mein?',
 
 O retorno da `msg` jah conhecemos, porém ele possui uma propriedade nova: `entities`.
 
-**Nao entrarei nesse escopo agora, entao vamos continuar com o `echo`.**
+**Não entrarei nesse escopo agora, entao vamos continuar com o `echo`.**
 
 O que nos interessa nesse retorno é o seguinte objeto: `match`.
 
@@ -214,7 +214,7 @@ O que nos interessa nesse retorno é o seguinte objeto: `match`.
 
 Como podemos ver ele é um *array* que contém o resultado do [match](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/match) testando a mensagem que o BOT recebeu com a *RegEx* que você definiu no `onText`.
 
-Caso você nao conheça essa funcao veja como ela funciona executando o seguinte código no Terminal, executando `node` antes.
+Caso você não conheça essa funcao veja como ela funciona executando o seguinte código no Terminal, executando `node` antes.
 
 ```js
 
@@ -234,7 +234,7 @@ Logo conseguimos entender que:
 - na posiçao 3: a entrada
 
 Agora vamos fazer o BOT enviar como mensagem o mesmo texto recebido no chat, 
-para isso iremos utilizar a fn `bot.sendMessage`.
+para isso iremos utilizar a função `bot.sendMessage`.
 
 Sua assinatura é bem simples:
 
@@ -247,7 +247,7 @@ bot.sendMessage( id, text )
 
 ```
 
-E essa fn irah retornar uma *Promise*, entao sabemos o que fazer né?
+E essa função irah retornar uma *Promise*, entao sabemos o que fazer né?
 
 ```js
 
@@ -274,7 +274,7 @@ bot.onText( /\/echo (.*)/, sendEcho )
 
 ![google it](https://s-media-cache-ak0.pinimg.com/236x/a8/4b/bf/a84bbf4e8b0d1fbdf31182b2b340680e.jpg)
 
-Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisiçao `GET` em https://www.google.com.br/search?q=nomadev e parsear seu HTML, com [cheerio](https://www.npmjs.com/package/cheerio) para retirarmos as informaçoes necessarias.
+Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisição `GET` em https://www.google.com.br/search?q=nomadev e parsear seu HTML, com [cheerio](https://www.npmjs.com/package/cheerio) para retirarmos as informaçoes necessarias.
 
 > **Sim isso é um *crawler*!**
 
