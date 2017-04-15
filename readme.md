@@ -402,6 +402,8 @@ http://nomadev.com.br/ delivered! { message_id: 52,
 
 #### Refatorando Funcionalidade  - Busca no Google
 
+> **Vamos refatorar para funções puras!**
+
 ```js
 
 const TelegramBot = require( `node-telegram-bot-api` )
