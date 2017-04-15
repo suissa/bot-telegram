@@ -1,36 +1,37 @@
 const TelegramBot = require( `node-telegram-bot-api` )
 const http = require( `axios` )
+const cheerio = require( `cheerio` )
 
 const TOKENS = require( `./token` )
 
 const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
-const URL_BASE = `https://www.google.com.br/#safe=off`
-const q = `nomadev`
+const URL_BASE = `https://www.google.com.br/search?q=`
 
-http.get( URL_BASE, {
-    params: { q }
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+const log = ( msg ) => ( result ) => 
+  console.log( msg, result )
 
-const logErrorEcho = ( msg ) => ( err ) => 
-  console.log( msg, err )
+const getURLFrom = ( elem, $ ) => 
+  $( elem ).attr( `href` )
+            .replace( `/url?q=`, `` )
+            .replace( /\&sa(.*)/, `` )
 
-const logSuccessEcho = ( msg, match ) => ( data ) => 
-  console.log( `Success: `, data )
+const sendLinkFromGoogle = ( $, msg ) => ( i, a ) =>
+  ( !i ) 
+    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ), { parsed_mode: 'Markdown' } )
+          .then( log( `${getURLFrom( a, $ )} delivered!` ) )
+          .catch( log( `Error: ` ) )
+    : false
 
-const sendEcho = ( msg, match ) => 
-  bot.sendMessage( msg.chat.id, match[ 1 ] )
-      .then( logSuccessEcho( msg, match ) )
-      .catch( logErrorEcho( `Error: ` ) )
+const sendLink = ( msg ) => ( response ) => {
+  const $ = cheerio.load( response.data )
+  
+  return $( `.r a` ).each( sendLinkFromGoogle( $, msg ) )
+}
 
-bot.onText( /\/echo (.*)/, sendEcho )
+const sendGoogle = ( msg, match ) => 
+  http.get( `${URL_BASE}${match[ 1 ]}` )
+      .then( sendLink( msg ) )
+      .catch( log( `Error: `) )
 
-// bot.onText( /\/echo (.*)/, ( msg, match ) => {
-//   console.log( `echo msg: `, msg ) 
-//   console.log( `echo match: `, match ) 
-// })
+
+bot.onText( /\/google (.*)/, sendGoogle )

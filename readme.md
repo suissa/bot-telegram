@@ -2,7 +2,7 @@
 
 Utilizaremos o módulo [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api/) para essa tarefa.
 
-Primeira coisa que você precisa é instalar esse módulo:
+Primeira coisa que precisamos fazer é instalar esse módulo:
 
 ```
 
@@ -49,10 +49,10 @@ const bot = new TelegramBot( TOKEN, { polling: true } )
 
 ```
 
-*ps: ñ precisa se preocupar que eu irei revogar o TOKEN quando publicar*
+*ps: ñ precisa se preocupar pois jah revoguei o TOKEN antes de publicar*
 
 Depois disso precisamos entender o conceito de como esse BOT funcionara', para isso 
-vamos ver o coóódigo mais simples possível que interaja com o BOT.
+vamos ver o código mais simples possível que interaja com o BOT.
 
 ```js
 
@@ -197,7 +197,7 @@ echo match:  [ '/echo blz mein?',
 
 ```
 
-O retorno da `msg` ja conhecemos, porém ele possui uma propriedade nova: `entities`.
+O retorno da `msg` jah conhecemos, porém ele possui uma propriedade nova: `entities`.
 
 **Nao entrarei nesse escopo agora, entao vamos continuar com o `echo`.**
 
@@ -247,7 +247,7 @@ bot.sendMessage( id, text )
 
 ```
 
-E essa fn ira retornar uma *Promise*, entao sabemos o que fazer né?
+E essa fn irah retornar uma *Promise*, entao sabemos o que fazer né?
 
 ```js
 
@@ -270,27 +270,187 @@ bot.onText( /\/echo (.*)/, sendEcho )
 
 ### Funcionalidades
 
-#### Funcionalidade  - busca no Google
+#### Funcionalidade  - Busca no Google
 
-Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisiçao `GET` em https://www.google.com.br/#safe=off&q=nomadev
+![google it](https://s-media-cache-ak0.pinimg.com/236x/a8/4b/bf/a84bbf4e8b0d1fbdf31182b2b340680e.jpg)
+
+Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisiçao `GET` em https://www.google.com.br/search?q=nomadev e parsear seu HTML, com [cheerio](https://www.npmjs.com/package/cheerio) para retirarmos as informaçoes necessarias.
+
+> **Sim isso é um *crawler*!**
 
 
-![nomadev no Google](http://i.imgur.com/72mWKTC.png)
+![nomadev no Google](http://i.imgur.com/kyHRxu3.png)
 
-##### Plot twist
+Porém quando requisitamos `nomadev` ao Google e pegamos o atributo `href`:
 
-> Melhor do que *parsear* o HTML de retorno do Google vamos fazer do jeito "certo"?
+```js
 
-Bora pegar uma chave para a API do Google para que possamos ter o retorno das buscas no formato JSON, o que nos facilitara r muito nossas vidas.
+  http.get( URL_BASE + match[ 1 ] )
+      .then( (response) => {
 
-Entao entre em *[Google API key](https://developers.google.com/custom-search/json-api/v1/overview)* e receba seu TOKEN.
+        const $ = cheerio.load( response.data )
+        $( `.r a` ).each( ( i, elem ) => {
+          if ( i === 1 ) return false
 
-![Google API key image](http://i.imgur.com/YShl5zT.png)
+          const url = $( elem ).attr( `href` )
+          console.log(`url`, url)
 
-Como você sabe agora possuimos mais um 1 TOKEN, logo precisamos refatorar nosso arquivo `token.js`, depois ensino como fazer usando o `.env`.
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-![](http://i.imgur.com/2okU1Dj.png)
+```
 
+<br>
+
+Recebemos o seguinte valor: `/url?q=http://nomadev.com.br/&sa=U&ved=0ahUKEwiC96G_xKbTAhVFhZAKHQKoALwQFggVMAA&usg=AFQjCNFAoCxThw2mWS4Xvg-PlvnwG0EWdQ`
+
+<br>
+
+Depois de analisar outras buscas percebi que a *url* desejada **sempre** vem adicionada de `/url?q=` e `&sa=U&ved=0ahUKEwiC96G_xKbTAhVFhZAKHQKoALwQFggVMAA&usg=AFQjCNFAoCxThw2mWS4Xvg-PlvnwG0EWdQ` logo preciso executar um `replace` em cada parte para retirar o indesejado:
+
+
+```js
+
+  http.get( URL_BASE + match[ 1 ] )
+      .then( (response) => {
+
+        const $ = cheerio.load( response.data )
+        $( `.r a` ).each( ( i, elem ) => {
+          if ( i === 1 ) return false
+
+          const url = $( elem ).attr( `href` )
+                                .replace( `/url?q=`, `` )
+                                .replace( /\&sa(.*)/, `` )
+          console.log(`url`, url)
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+```
+
+<br>
+
+Prontinho! A possuimos a *url* desejada e podemos enviar ela como mensagem pelo BOT.
+
+```js
+
+const TelegramBot = require( `node-telegram-bot-api` )
+const http = require( `axios` )
+const cheerio = require( `cheerio` )
+
+const TOKENS = require( `./token` )
+
+const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
+const URL_BASE = `https://www.google.com.br/search?q=`
+
+const log = ( msg ) => ( result ) => 
+  console.log( msg, result )
+
+const sendGoogle = ( msg, match ) => {
+
+  http.get( `${URL_BASE}${match[ 1 ]}` )
+      .then( (response) => {
+
+        const $ = cheerio.load( response.data )
+        $( `.r a` ).each( ( i, elem ) => {
+          if ( i === 1 ) return false
+
+          const url = $( elem ).attr( `href` )
+                                .replace( `/url?q=`, `` )
+                                .replace( /\&sa(.*)/, `` )
+                                
+        bot.sendMessage( msg.chat.id, url, { parsed_mode: 'Markdown' } )
+            .then( log( `${url} delivered!` ) )
+            .catch( log( `Error: ` ) )
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
+bot.onText( /\/google (.*)/, sendGoogle )
+
+```
+
+<br>
+
+**Resultado:**
+
+```
+
+http://nomadev.com.br/ delivered! { message_id: 52,
+  from: 
+   { id: 275399831,
+     first_name: 'meu_exemplo_de_bot',
+     username: 'meu_exemplo_de_bot' },
+  chat: 
+   { id: 77586615,
+     first_name: 'Suissa Refatoreitor',
+     last_name: 'Tabajara',
+     username: 'osuissa',
+     type: 'private' },
+  date: 1492262538,
+  text: 'http://nomadev.com.br/',
+  entities: [ { type: 'url', offset: 0, length: 22 } ] }
+
+```
+
+#### Refatorando Funcionalidade  - Busca no Google
+
+```js
+
+const TelegramBot = require( `node-telegram-bot-api` )
+const http = require( `axios` )
+const cheerio = require( `cheerio` )
+
+const TOKENS = require( `./token` )
+
+const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
+const URL_BASE = `https://www.google.com.br/search?q=`
+
+const log = ( msg ) => ( result ) => 
+  console.log( msg, result )
+
+const getURLFrom = ( elem, $ ) => 
+  $( elem ).attr( `href` )
+            .replace( `/url?q=`, `` )
+            .replace( /\&sa(.*)/, `` )
+
+const sendLinkFromGoogle = ( $, msg ) => ( i, a ) =>
+  ( !i ) 
+    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ), { parsed_mode: 'Markdown' } )
+          .then( log( `${getURLFrom( a, $ )} delivered!` ) )
+          .catch( log( `Error: ` ) )
+    : false
+
+const sendLink = ( msg ) => ( response ) => {
+  const $ = cheerio.load( response.data )
+  
+  return $( `.r a` ).each( sendLinkFromGoogle( $, msg ) )
+}
+
+const sendGoogle = ( msg, match ) => 
+  http.get( `${URL_BASE}${match[ 1 ]}` )
+      .then( sendLink( msg ) )
+      .catch( log( `Error: `) )
+
+
+bot.onText( /\/google (.*)/, sendGoogle )
+
+```
+
+<br>
+
+**Bora testar o comando: `/google github suissa`**
+
+<br>
+
+![github do suissa](http://i.imgur.com/LKrmTDm.png)
 
 ## Erros
 
