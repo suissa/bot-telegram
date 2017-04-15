@@ -467,9 +467,10 @@ bot.onText( /\/google (.*)/, sendGoogle )
 
 Caso você queira treinar e contribuir come sse projeto crie um bot para as seguintes buscas.
 
-- Wikipedie
+- Wikipedia
 - mdn.io
 - DuckDuckGo
+- redtube
 
 > **Depois irei ensinar a mordularizar e utilizaremos todas as buscas no mesmo BOT!**
 
