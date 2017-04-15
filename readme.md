@@ -363,7 +363,7 @@ const sendGoogle = ( msg, match ) => {
                                 .replace( `/url?q=`, `` )
                                 .replace( /\&sa(.*)/, `` )
                                 
-        bot.sendMessage( msg.chat.id, url, { parsed_mode: 'Markdown' } )
+        bot.sendMessage( msg.chat.id, url, { parse_mode: 'Markdown' } )
             .then( log( `${url} delivered!` ) )
             .catch( log( `Error: ` ) )
         });
@@ -433,7 +433,7 @@ const getURLFrom = ( elem, $ ) =>
 
 const sendLinkFromGoogle = ( $, msg ) => ( i, a ) =>
   ( !i ) 
-    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ), { parsed_mode: 'Markdown' } )
+    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ), { parse_mode: 'Markdown' } )
           .then( log( `${getURLFrom( a, $ )} delivered!` ) )
           .catch( log( `Error: ` ) )
     : false
@@ -461,6 +461,8 @@ bot.onText( /\/google (.*)/, sendGoogle )
 <br>
 
 ![github do suissa](http://i.imgur.com/LKrmTDm.png)
+
+// Logo + falar sobre os parse_mode MD e HTML { parse_mode: 'Markdown' }
 
 ## Erros
 

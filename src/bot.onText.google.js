@@ -11,13 +11,13 @@ const log = ( msg ) => ( result ) =>
   console.log( msg, result )
 
 const getURLFrom = ( elem, $ ) => 
-  $( elem ).attr( `href` )
-            .replace( `/url?q=`, `` )
-            .replace( /\&sa(.*)/, `` )
+  `Link: ` + $( elem ).attr( `href` )
+                      .replace( `/url?q=`, `` )
+                      .replace( /\&sa(.*)/, `` )
 
 const sendLinkFromGoogle = ( $, msg ) => ( i, a ) =>
   ( !i ) 
-    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ), { parsed_mode: 'Markdown' } )
+    ? bot.sendMessage( msg.chat.id, getURLFrom( a, $ ) )
           .then( log( `${getURLFrom( a, $ )} delivered!` ) )
           .catch( log( `Error: ` ) )
     : false
