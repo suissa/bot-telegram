@@ -472,9 +472,10 @@ Caso você queira treinar e contribuir com esse projeto crie um bot para alguma 
 - DuckDuckGo
 - redtube
 
-E envie para a pasta `src/` o arquivo com o nome: 
+E envie para a pasta `src/` o arquivo com o nome: `desafioBusca.${seu_gutgub_user}.js`
 
-`desafioBusca.${seu_gutgub_user}.js`
+<br>
+<br>
 
 > **Depois irei ensinar a mordularizar e utilizaremos todas as buscas no mesmo BOT!**
 
