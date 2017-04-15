@@ -1,8 +1,8 @@
 const TelegramBot = require( `node-telegram-bot-api` )
 
-const TOKEN = require( `./token` )
+const TOKENS = require( `./token` )
 
-const bot = new TelegramBot( TOKEN, { polling: true } )
+const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
 
 const logErrorEcho = ( msg ) => ( err ) => 
   console.log( msg, err )

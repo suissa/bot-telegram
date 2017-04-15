@@ -1,9 +1,9 @@
 const TelegramBot = require( `node-telegram-bot-api` )
 const http = require( `axios` )
 
-const TOKEN = require( `./token` )
+const TOKENS = require( `./token` )
 
-const bot = new TelegramBot( TOKEN, { polling: true } )
+const bot = new TelegramBot( TOKENS.TELEGRAM, { polling: true } )
 const URL_BASE = `https://www.google.com.br/#safe=off`
 const q = `nomadev`
 

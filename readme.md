@@ -270,12 +270,27 @@ bot.onText( /\/echo (.*)/, sendEcho )
 
 ### Funcionalidades
 
-## Funcionalidade  - busca no Google
+#### Funcionalidade  - busca no Google
 
 Para criarmos um comando para fazer uma busca usaremos o [axios](https://www.npmjs.com/package/axios), primeira vez que usarei ele, sempre usei request/[request-promise](https://github.com/suissa/request-promise-chains); com ele iremos fazer uma requisiçao `GET` em https://www.google.com.br/#safe=off&q=nomadev
 
 
 ![nomadev no Google](http://i.imgur.com/72mWKTC.png)
+
+##### Plot twist
+
+> Melhor do que *parsear* o HTML de retorno do Google vamos fazer do jeito "certo"?
+
+Bora pegar uma chave para a API do Google para que possamos ter o retorno das buscas no formato JSON, o que nos facilitara r muito nossas vidas.
+
+Entao entre em *[Google API key](https://developers.google.com/custom-search/json-api/v1/overview)* e receba seu TOKEN.
+
+![Google API key image](http://i.imgur.com/YShl5zT.png)
+
+Como você sabe agora possuimos mais um 1 TOKEN, logo precisamos refatorar nosso arquivo `token.js`, depois ensino como fazer usando o `.env`.
+
+![](http://i.imgur.com/2okU1Dj.png)
+
 
 ## Erros
 
