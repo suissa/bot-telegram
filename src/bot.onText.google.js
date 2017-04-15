@@ -25,13 +25,14 @@ const sendLinkFromGoogleUsing = ( $, msg ) => ( i, a ) =>
     : false
 
 const sendLinkFrom = ( msg ) => ( response ) => 
-  $( `.r a` ).each( sendLinkFromGoogleUsing( cheerio.load( response.data ), msg ) )
-
+  cheerio.load( response.data )( `.r a` )
+          .each( sendLinkFromGoogleUsing( cheerio.load( response.data ), 
+                                          msg ) )
+                                          
 const sendGoogle = ( msg, match ) => 
   http.get( `${URL_BASE}${match[ 1 ]}` )
       .then( sendLinkFrom( msg ) )
       .catch( log( `Error: `) )
-
 
 bot.onText( /\/google (.*)/, sendGoogle )
 

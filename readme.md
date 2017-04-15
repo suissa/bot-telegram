@@ -462,6 +462,25 @@ bot.onText( /\/google (.*)/, sendGoogle )
 
 ![github do suissa](http://i.imgur.com/LKrmTDm.png)
 
+
+### DESAFIO - Busca
+
+Caso você queira treinar e contribuir come sse projeto crie um bot para as seguintes buscas.
+
+- Wikipedie
+- mdn.io
+- DuckDuckGo
+
+> **Depois irei ensinar a mordularizar e utilizaremos todas as buscas no mesmo BOT!**
+
+<br>
+<br>
+<br>
+
+
+**TERMINA AQUI POR HORA!!!!**
+
+
 // Logo + falar sobre os parse_mode MD e HTML { parse_mode: 'Markdown' }
 
 ## Erros
