@@ -95,9 +95,8 @@ Também possuimos 2 outros objetos:
 - from: dados de quem enviou a mensagem
 - chat: dados do chat aberto entre você e o BOT
 
-Facilmente podemos inferir que o `chat.id` é igual ao `from.id`, logo o Telegram 
-cria essa ligação entre você e chat que você abriu.
-
+Facilmente podemos inferir que o `chat.id` é igual ao `from.id`, quando trata-se de uma conversa privada, logo o Telegram 
+cria essa ligação entre você e chat que você abriu. Quando a mensagem é recebida em um grupo, chat.id é o ID do grupo e from.id é o ID do user que enviou a mensagem.
 > 
 > Guarde bem essa informação pois sera muito útil no futuro.
 >
